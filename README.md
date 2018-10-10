@@ -9,7 +9,24 @@ cli interface for &#39;conf&#39; library
 [![License](https://img.shields.io/npm/l/conf-cli.svg)](https://github.com/natzcam/conf-cli/blob/master/package.json)
 
 <!-- toc -->
+* [Usage](#usage)
+* [Commands](#commands)
+<!-- tocstop -->
 # Usage
 <!-- usage -->
+```sh-session
+$ npm install -g conf-cli
+$ conf COMMAND
+running command...
+$ conf (-v|--version|version)
+conf-cli/0.0.1 win32-x64 node-v8.9.1
+$ conf --help [COMMAND]
+USAGE
+  $ conf COMMAND
+...
+```
+<!-- usagestop -->
 # Commands
 <!-- commands -->
+
+<!-- commandsstop -->
