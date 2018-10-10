@@ -1,0 +1,61 @@
+{
+  "name": "conf-cli",
+  "description": "cli interface for 'sindresorhus/conf'",
+  "version": "0.0.1",
+  "author": "Nathaniel Camomot",
+  "bin": {
+    "conf": "./bin/run"
+  },
+  "bugs": "https://github.com/natzcam/conf-cli/issues",
+  "dependencies": {
+    "@oclif/command": "^1.5.2",
+    "@oclif/config": "^1.8.6",
+    "@oclif/plugin-help": "^2.1.2",
+    "conf": "^2.0.0",
+    "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "@oclif/test": "^1.2.1",
+    "@oclif/tslint": "^3.1.0",
+    "@types/chai": "^4.1.6",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.11.6",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.0.1",
+    "rimraf": "^2.6.2",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib"
+  ],
+  "homepage": "https://github.com/natzcam/conf-cli",
+  "keywords": [
+    "oclif",
+    "conf",
+    "cli",
+    "config"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "oclif": {
+    "bin": "conf"
+  },
+  "repository": "natzcam/conf-cli",
+  "scripts": {
+    "dev": "rm -rf lib && tsc -w",
+    "build": "rm -rf lib && tsc",
+    "lint": "tsc -p test --noEmit && tslint -p test",
+    "posttest": "tslint -p test -t stylish",
+    "prepack": "rimraf lib && tsc -b",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "types": "lib/index.d.ts"
+}
