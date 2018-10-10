@@ -1,6 +1,6 @@
 {
   "name": "conf-cli",
-  "description": "cli interface for 'sindresorhus/conf'",
+  "description": "simple cli for config and key/value store",
   "version": "0.0.1",
   "author": "Nathaniel Camomot",
   "bin": {
@@ -49,8 +49,6 @@
   },
   "repository": "natzcam/conf-cli",
   "scripts": {
-    "dev": "rm -rf lib && tsc -w",
-    "build": "rm -rf lib && tsc",
     "lint": "tsc -p test --noEmit && tslint -p test",
     "posttest": "tslint -p test -t stylish",
     "prepack": "rimraf lib && tsc -b",

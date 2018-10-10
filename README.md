@@ -1,7 +1,7 @@
 conf-cli
 ========
 
-cli interface for &#39;conf&#39; library
+simple cli for config and key/value store
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/conf-cli.svg)](https://npmjs.org/package/conf-cli)

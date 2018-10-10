@@ -1,12 +1,12 @@
 import { Command, flags } from '@oclif/command'
 import * as Conf from 'conf';
 
-export default class ConfCommand extends Command {
-  static description = 'cli for conf package';
+class ConfCommand extends Command {
+  static description = 'simple cli for config and key/value store';
 
   static flags = {
     help: flags.help({ char: 'h' }),
-    key: flags.string({ char: 'k', description: 'key of the config' }),
+    key: flags.string({ char: 'k', description: 'key of the config', }),
     value: flags.string({ char: 'v', description: 'value of the config' }),
     delete: flags.boolean({ char: 'd', description: 'delete?' }),
     encrypt: flags.string({ char: 'e', description: 'encryption key' }),
@@ -47,6 +47,10 @@ export default class ConfCommand extends Command {
       } else {
         this.log(config.get(flags.key));
       }
+    } else {
+      config.
     }
   }
 }
+
+export = ConfCommand;
