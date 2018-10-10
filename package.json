@@ -1,7 +1,7 @@
 {
   "name": "conf-cli",
-  "description": "simple cli for config and key/value store",
-  "version": "0.0.2",
+  "description": "simple cli for configuration and key/value's",
+  "version": "0.1.1",
   "author": "Nathaniel Camomot",
   "bin": {
     "conf": "./bin/run"
@@ -15,12 +15,14 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
+    "@oclif/dev-cli": "^1.19.0",
     "@oclif/test": "^1.2.1",
     "@oclif/tslint": "^3.1.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.11.6",
     "chai": "^4.2.0",
+    "globby": "^8.0.1",
     "mocha": "^5.2.0",
     "nyc": "^13.0.1",
     "rimraf": "^2.6.2",
@@ -33,7 +35,10 @@
   },
   "files": [
     "/bin",
-    "/lib"
+    "/lib",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
+    "/yarn.lock"
   ],
   "homepage": "https://github.com/natzcam/conf-cli",
   "keywords": [
@@ -45,15 +50,17 @@
   "license": "MIT",
   "main": "lib/index.js",
   "oclif": {
-    "bin": "conf"
+    "commands": "./lib/commands",
+    "bin": "conf",
+    "devPlugins": [
+      "@oclif/plugin-help"
+    ]
   },
   "repository": "natzcam/conf-cli",
   "scripts": {
-    "lint": "tsc -p test --noEmit && tslint -p test",
-    "posttest": "tslint -p test -t stylish",
-    "prepack": "rimraf lib && tsc -b",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif-dev readme && git add README.md"
-  },
-  "types": "lib/index.d.ts"
+    "posttest": "tslint -p test -t stylish",
+    "prepack": "oclif-dev manifest && npm shrinkwrap && rimraf lib && tsc -b",
+    "postpack": "rimraf oclif.manifest.json npm-shrinkwrap.json"
+  }
 }

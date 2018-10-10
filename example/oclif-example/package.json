@@ -1,0 +1,53 @@
+{
+  "name": "oclif-example",
+  "version": "0.0.0",
+  "author": "Nathaniel Camomot",
+  "bin": {
+    "oclif-example": "./bin/run"
+  },
+  "bugs": "https://github.com/natzcam/oclif-example/issues",
+  "dependencies": {
+    "@oclif/command": "^1.5.2",
+    "@oclif/config": "^1.8.6",
+    "@oclif/plugin-help": "^2.1.2",
+    "conf-cli": "file:../.."
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.19.0",
+    "eslint": "^5.6.1",
+    "eslint-config-oclif": "^3.1.0",
+    "globby": "^8.0.1",
+    "rimraf": "^2.6.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
+    "/src"
+  ],
+  "homepage": "https://github.com/natzcam/oclif-example",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "oclif": {
+    "commands": "./src/commands",
+    "bin": "oclif-example",
+    "plugins": [
+      "@oclif/plugin-help",
+      "conf-cli"
+    ]
+  },
+  "repository": "natzcam/oclif-example",
+  "scripts": {
+    "postpack": "rimraf oclif.manifest.json npm-shrinkwrap.json",
+    "posttest": "eslint .",
+    "prepack": "oclif-dev manifest && oclif-dev readme && npm shrinkwrap",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md"
+  }
+}
