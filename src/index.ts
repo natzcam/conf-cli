@@ -27,6 +27,7 @@ class ConfCommand extends Command {
       ...(flags.name && { configName: flags.name }),
       ...(flags.project && { projectName: flags.name }),
       ...(flags.cwd && { cwd: flags.cwd }),
+      ...(flags.encrypt && { encryptionKey: flags.encrypt }),
     };
 
     const config: typeof Conf = new Conf(opts);
@@ -48,7 +49,9 @@ class ConfCommand extends Command {
         this.log(config.get(flags.key));
       }
     } else {
-      config.
+      for (let c of config) {
+        this.log(c[0]);
+      }
     }
   }
 }
