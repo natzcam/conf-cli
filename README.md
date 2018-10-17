@@ -1,8 +1,9 @@
 conf-cli
 ========
 
-> simple cli for [conf](https://github.com/sindresorhus/conf)
-
+> * simple cli interface for [sindresorhus/conf](https://github.com/sindresorhus/conf)
+> * [oclif plugin](https://oclif.io/docs/plugins) that adds a `conf` command that lets you manage state/configuration between commands
+> * standalone key/value store
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/conf-cli.svg)](https://npmjs.org/package/conf-cli)
@@ -36,42 +37,35 @@ OPTIONS
   -v, --value=value      value of the config
 ```
 
+> * if [VALUE] is not provided, value of the key is printed
+> * if [KEY] and [VALUE] is not provided, all the keys will be printed
+
+
 _See code: [src\commands\conf.ts](https://github.com/natzcam/conf-cli/blob/v0.1.1/src\commands\conf.ts)_
 
 # Usage
 
-### as a standalone key/value store
+## as [sindresorhus/conf](https://github.com/sindresorhus/conf) cli interface
 
-```sh-session
-$ conf hello jonsnow
-$ conf hi varys
-$ conf hello
-jonsnow
-$ conf hi
-varys
-$ conf
-hello
-hi
-```
-
-### as [conf](https://github.com/sindresorhus/conf) manager
+use sindresorhus/conf in your app
 ```javascript
 // simple-example/index.js
 const Conf = require('conf');
 const config = new Conf();
 console.log(`hello ${config.get('name')}!`);
 ```
-use conf-cli to update 'name' from outside
+use conf-cli to update `name` property from outside the app.
+--project/-p flag sets the target project (package name).
 ```sh-session
 $ conf name world -p simple-example
 ```
-see it affect the target project:
+see it affect simple-example
 ```sh-session
 $ node simple-example/index.js
 hello world!
 ```
 
-### as an [oclif plugin](https://oclif.io/docs/plugins)
+## as an [oclif plugin](https://oclif.io/docs/plugins)
 create a new oclif project
 ```sh-session
 $ oclif multi oclif-example
@@ -110,6 +104,27 @@ $ oclif-example hello
 hello daenarys!
 $ conf -p oclif-example name
 daenarys
+```
+```javascript
+//src/commands/hello.js
+class HelloCommand extends Command {
+  async run() {
+    this.log(`hello ${config.get('name')}!`);
+  }
+}
+```
+## as a standalone key/value store
+
+```sh-session
+$ conf hello jonsnow
+$ conf hi varys
+$ conf hello
+jonsnow
+$ conf hi
+varys
+$ conf
+hello
+hi
 ```
 
 # Examples
