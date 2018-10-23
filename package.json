@@ -1,7 +1,7 @@
 {
   "name": "conf-cli",
   "description": "simple cli for configuration and key/value's",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "author": "Nathaniel Camomot",
   "bin": {
     "conf": "./bin/run"
@@ -36,9 +36,7 @@
   "files": [
     "/bin",
     "/lib",
-    "/npm-shrinkwrap.json",
-    "/oclif.manifest.json",
-    "/yarn.lock"
+    "/oclif.manifest.json"
   ],
   "homepage": "https://github.com/natzcam/conf-cli",
   "keywords": [
@@ -60,7 +58,7 @@
   "scripts": {
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
     "posttest": "tslint -p test -t stylish",
-    "prepack": "oclif-dev manifest && npm shrinkwrap && rimraf lib && tsc -b",
-    "postpack": "rimraf oclif.manifest.json npm-shrinkwrap.json"
+    "prepack": "oclif-dev manifest && rimraf lib && tsc -b",
+    "postpack": "rimraf oclif.manifest.json"
   }
 }
