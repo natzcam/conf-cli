@@ -42,13 +42,20 @@ export default class ConfCommand extends Command {
       } else {
         value = config.get(key)
         if (value !== null && value !== undefined) {
-          process.stdout.write(value)
+          this.print(value)
         }
       }
     } else {
       for (let c of config) {
-        process.stdout.write(c[0] + os.EOL)
+        this.print(c[0] + os.EOL)
       }
     }
+  }
+
+  private print(value: any) {
+    if (typeof value === 'object') {
+      value = JSON.stringify(value)
+    }
+    process.stdout.write(value)
   }
 }
