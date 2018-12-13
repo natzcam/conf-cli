@@ -1,7 +1,7 @@
 {
   "name": "conf-cli",
   "description": "simple cli for configuration and key/value's",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": "Nathaniel Camomot",
   "bin": {
     "conf": "./bin/run"
@@ -29,9 +29,6 @@
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typescript": "^3.1.1"
-  },
-  "engines": {
-    "node": ">=8.0.0"
   },
   "files": [
     "/bin",
