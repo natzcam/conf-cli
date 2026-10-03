@@ -15,33 +15,39 @@ conf-cli
 npm install -g conf-cli
 ```
 
+Requires Node.js 20 or later.
+
 ## `conf [KEY] [VALUE]`
 
 manage configuration
 
 ```
 USAGE
-  $ conf [KEY] [VALUE]
+  $ conf [KEY] [VALUE] [-h] [-k <value>] [-v <value>] [-d] [-p <value>] [-n <value>] [-c <value>]
 
 ARGUMENTS
-  KEY    key of the config
-  VALUE  value of the config
+  [KEY]    key of the config
+  [VALUE]  value of the config
 
-OPTIONS
-  -d, --cwd=cwd          config file location
+FLAGS
+  -c, --cwd=<value>      config file location
   -d, --delete           delete?
-  -h, --help             show CLI help
-  -k, --key=key          key of the config
-  -n, --name=name        config file name
-  -p, --project=project  project name
-  -v, --value=value      value of the config
+  -h, --help             Show CLI help.
+  -k, --key=<value>      key of the config
+  -n, --name=<value>     config file name
+  -p, --project=<value>  project name
+  -v, --value=<value>    value of the config
 ```
 
-> * if [VALUE] is not provided, value of the key is printed
+> * if [VALUE] is not provided, value of the key is printed (exits with code 1 if the key is not set)
 > * if [KEY] and [VALUE] is not provided, all the keys will be printed
+> * keys containing `__proto__`, `constructor` or `prototype` are rejected
+> * `--project` and `--name` can't contain path separators or `..` (except a scoped package name like `@scope/app` for `--project`); use `--cwd` to pick a location
+
+**Security note:** values are stored as plaintext JSON (under `~/.config/<project>-nodejs/` on Linux by default). Don't store secrets such as passwords or API tokens with conf-cli.
 
 
-_See code: [src\commands\conf.ts](https://github.com/natzcam/conf-cli/blob/v0.1.1/src\commands\conf.ts)_
+_See code: [src/commands/conf.ts](https://github.com/natzcam/conf-cli/blob/master/src/commands/conf.ts)_
 
 # Usage
 
@@ -50,8 +56,8 @@ _See code: [src\commands\conf.ts](https://github.com/natzcam/conf-cli/blob/v0.1.
 use sindresorhus/conf in your app
 ```javascript
 // simple-example/index.js
-const Conf = require('conf');
-const config = new Conf();
+import Conf from 'conf';
+const config = new Conf({projectName: 'simple-example'});
 console.log(`hello ${config.get('name')}!`);
 ```
 use conf-cli to update `name` property from outside the app.
@@ -66,9 +72,9 @@ hello world!
 ```
 
 ## as an [oclif plugin](https://oclif.io/docs/plugins)
-create a new oclif project
+create a new oclif project (requires `@oclif/core` v4 or later)
 ```sh-session
-$ oclif multi oclif-example
+$ npx oclif generate oclif-example
 ```
 install conf-cli
 ```sh-session
@@ -85,7 +91,7 @@ add to oclif plugins in package.json
 ```sh-session
 $ oclif-example
 VERSION
-  oclif-example/0.0.0 win32-x64 node-v8.9.1
+  oclif-example/0.0.0 linux-x64 node-v20.20.2
 
 USAGE
   $ oclif-example [COMMAND]
@@ -106,10 +112,14 @@ $ conf -p oclif-example name
 daenarys
 ```
 ```javascript
-//src/commands/hello.js
-class HelloCommand extends Command {
+// src/commands/hello.js
+import {Command} from '@oclif/core'
+import Conf from 'conf'
+
+export default class HelloCommand extends Command {
   async run() {
-    this.log(`hello ${config.get('name')}!`);
+    const config = new Conf({projectName: this.config.name})
+    this.log(`hello ${config.get('name')}!`)
   }
 }
 ```

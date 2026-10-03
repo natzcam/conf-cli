@@ -1,21 +1,19 @@
-const {Command, flags} = require('@oclif/command')
-const Conf = require('conf');
-const config = new Conf();
+import {Command, Flags} from '@oclif/core'
+import Conf from 'conf'
 
-class HelloCommand extends Command {
-  async run() {
-    const {flags} = this.parse(HelloCommand)
-    this.log(`hello ${config.get('name')}!`);
-  }
-}
-
-HelloCommand.description = `Describe the command here
+export default class HelloCommand extends Command {
+  static description = `Describe the command here
 ...
 Extra documentation goes here
 `
 
-HelloCommand.flags = {
-  name: flags.string({char: 'n', description: 'name to print'}),
-}
+  static flags = {
+    name: Flags.string({char: 'n', description: 'name to print'}),
+  }
 
-module.exports = HelloCommand
+  async run() {
+    await this.parse(HelloCommand)
+    const config = new Conf({projectName: this.config.name})
+    this.log(`hello ${config.get('name')}!`)
+  }
+}

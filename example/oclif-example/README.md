@@ -19,7 +19,7 @@ $ npm install -g oclif-example
 $ oclif-example COMMAND
 running command...
 $ oclif-example (-v|--version|version)
-oclif-example/0.0.0 win32-x64 node-v8.9.1
+oclif-example/0.0.0 linux-x64 node-v20.20.2
 $ oclif-example --help [COMMAND]
 USAGE
   $ oclif-example COMMAND
@@ -38,23 +38,23 @@ manage configuration
 
 ```
 USAGE
-  $ oclif-example conf [KEY] [VALUE]
+  $ oclif-example conf [KEY] [VALUE] [-h] [-k <value>] [-v <value>] [-d] [-p <value>] [-n <value>] [-c <value>]
 
 ARGUMENTS
-  KEY    key of the config
-  VALUE  value of the config
+  [KEY]    key of the config
+  [VALUE]  value of the config
 
-OPTIONS
-  -d, --cwd=cwd          config file location
+FLAGS
+  -c, --cwd=<value>      config file location
   -d, --delete           delete?
-  -h, --help             show CLI help
-  -k, --key=key          key of the config
-  -n, --name=name        config file name
-  -p, --project=project  project name
-  -v, --value=value      value of the config
+  -h, --help             Show CLI help.
+  -k, --key=<value>      key of the config
+  -n, --name=<value>     config file name
+  -p, --project=<value>  project name
+  -v, --value=<value>    value of the config
 ```
 
-_See code: [conf-cli](https://github.com/natzcam/conf-cli/blob/v0.0.9/src\commands\conf.ts)_
+_See code: [conf-cli](https://github.com/natzcam/conf-cli/blob/master/src/commands/conf.ts)_
 
 ## `oclif-example hello`
 
@@ -72,7 +72,7 @@ DESCRIPTION
   Extra documentation goes here
 ```
 
-_See code: [src\commands\hello.js](https://github.com/natzcam/oclif-example/blob/v0.0.0/src\commands\hello.js)_
+_See code: [src/commands/hello.js](https://github.com/natzcam/oclif-example/blob/master/src/commands/hello.js)_
 
 ## `oclif-example help [COMMAND]`
 

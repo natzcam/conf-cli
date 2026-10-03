@@ -1,38 +1,57 @@
-import { Command, flags } from '@oclif/command'
-import * as Conf from 'conf'
-import * as os from 'os'
+import {Args, Command, Flags} from '@oclif/core'
+import Conf from 'conf'
+
+// conf (via dot-prop) silently drops keys that touch these segments to block
+// prototype pollution; reject them up front so the user knows nothing was stored.
+const UNSAFE_KEY_SEGMENTS = new Set(['__proto__', 'constructor', 'prototype'])
+
+// --project and --name become part of the config file path, so they must not
+// contain separators or ".." that would let them escape the config directory.
+const isPathSegment = (value: string) => !value.includes('..') && !/[/\\]/.test(value)
+const isScopedPackageName = (value: string) => /^@[^/\\]+\/[^/\\]+$/.test(value) && !value.includes('..')
 
 export default class ConfCommand extends Command {
+  static id = 'conf'
   static description = 'manage configuration'
 
   static flags = {
-    help: flags.help({ char: 'h' }),
-    key: flags.string({ char: 'k', description: 'key of the config' }),
-    value: flags.string({ char: 'v', description: 'value of the config' }),
-    delete: flags.boolean({ char: 'd', description: 'delete?' }),
-    project: flags.string({ char: 'p', description: 'project name' }),
-    name: flags.string({ char: 'n', description: 'config file name' }),
-    cwd: flags.string({ char: 'd', description: 'config file location' }),
+    help: Flags.help({char: 'h'}),
+    key: Flags.string({char: 'k', description: 'key of the config'}),
+    value: Flags.string({char: 'v', description: 'value of the config'}),
+    delete: Flags.boolean({char: 'd', description: 'delete?'}),
+    project: Flags.string({char: 'p', description: 'project name'}),
+    name: Flags.string({char: 'n', description: 'config file name'}),
+    cwd: Flags.string({char: 'c', description: 'config file location'}),
   }
 
-  static args = [
-    { name: 'key', description: 'key of the config' },
-    { name: 'value', description: 'value of the config' }
-  ]
+  static args = {
+    key: Args.string({description: 'key of the config'}),
+    value: Args.string({description: 'value of the config'}),
+  }
 
   async run() {
-    const { args, flags } = this.parse(ConfCommand)
+    const {args, flags} = await this.parse(ConfCommand)
 
-    const opts = {
-      projectName: flags.project ? flags.project : this.config.name,
-      ...(flags.name && { configName: flags.name }),
-      ...(flags.cwd && { cwd: flags.cwd })
+    if (flags.project && !isPathSegment(flags.project) && !isScopedPackageName(flags.project)) {
+      this.error(`invalid --project "${flags.project}": use a package name, or --cwd to choose the location`, {exit: 2})
     }
 
-    const config = new Conf(opts)
+    if (flags.name && !isPathSegment(flags.name)) {
+      this.error(`invalid --name "${flags.name}": use a file name, or --cwd to choose the location`, {exit: 2})
+    }
 
-    const key = args.key || flags.key
-    let value = args.value || flags.value
+    const config = new Conf({
+      projectName: flags.project ?? this.config.name,
+      ...(flags.name && {configName: flags.name}),
+      ...(flags.cwd && {cwd: flags.cwd}),
+    })
+
+    const key = args.key ?? flags.key
+    const value = args.value ?? flags.value
+
+    if (key && key.split('.').some(segment => UNSAFE_KEY_SEGMENTS.has(segment))) {
+      this.error(`invalid key "${key}": "__proto__", "constructor" and "prototype" are not allowed`, {exit: 2})
+    }
 
     if (key) {
       if (flags.delete) {
@@ -40,22 +59,16 @@ export default class ConfCommand extends Command {
       } else if (value) {
         config.set(key, value)
       } else {
-        value = config.get(key)
-        if (value !== null && value !== undefined) {
-          this.print(value)
+        const current = config.get(key)
+        if (current === null || current === undefined) {
+          this.exit(1)
         }
+        this.log(typeof current === 'object' ? JSON.stringify(current) : String(current))
       }
     } else {
-      for (let c of config) {
-        this.print(c[0] + os.EOL)
+      for (const [k] of config) {
+        this.log(k)
       }
     }
-  }
-
-  private print(value: any) {
-    if (typeof value === 'object') {
-      value = JSON.stringify(value)
-    }
-    process.stdout.write(value)
   }
 }

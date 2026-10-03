@@ -1,3 +1,3 @@
-const Conf = require('conf');
-const config = new Conf();
+import Conf from 'conf';
+const config = new Conf({projectName: 'simple-example'});
 console.log(`hello ${config.get('name')}!`);

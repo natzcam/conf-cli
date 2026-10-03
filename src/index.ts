@@ -1,3 +1,3 @@
-import ConfCommand from './commands/conf'
+import ConfCommand from './commands/conf.js'
 
-export = ConfCommand
+export default ConfCommand

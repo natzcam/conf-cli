@@ -1,40 +1,41 @@
 {
   "name": "conf-cli",
   "description": "simple cli for configuration and key/value's",
-  "version": "0.1.9",
+  "version": "1.0.0",
   "author": "Nathaniel Camomot",
+  "type": "module",
   "bin": {
-    "conf": "./bin/run"
+    "conf": "./bin/run.js"
   },
   "bugs": "https://github.com/natzcam/conf-cli/issues",
   "dependencies": {
-    "@oclif/command": "^1.5.2",
-    "@oclif/config": "^1.8.6",
-    "@oclif/plugin-help": "^2.1.2",
-    "conf": "^4.1.0",
-    "tslib": "^1.9.3"
+    "@oclif/core": "^4.14.0",
+    "conf": "^15.1.0"
   },
   "devDependencies": {
-    "@oclif/dev-cli": "^1.19.0",
-    "@oclif/test": "^1.2.1",
-    "@oclif/tslint": "^3.1.0",
-    "@types/chai": "^4.1.6",
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^10.11.6",
-    "chai": "^4.2.0",
-    "globby": "^8.0.1",
-    "mocha": "^5.2.0",
-    "nyc": "^13.0.1",
-    "rimraf": "^2.6.2",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.11.0",
-    "typescript": "^3.1.1"
+    "@eslint/js": "^10.0.0",
+    "@oclif/test": "^4.2.0",
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.19.0",
+    "c8": "^12.0.0",
+    "chai": "^6.3.0",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "mocha": "^12.0.3",
+    "oclif": "^4.24.0",
+    "rimraf": "^6.1.3",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.0"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=20.0.0"
   },
+  "exports": "./lib/index.js",
   "files": [
-    "/bin",
+    "/bin/run.js",
+    "/bin/run.cmd",
     "/lib",
     "/oclif.manifest.json"
   ],
@@ -47,18 +48,19 @@
   ],
   "license": "MIT",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "oclif": {
-    "commands": "./lib/commands",
     "bin": "conf",
-    "devPlugins": [
-      "@oclif/plugin-help"
-    ]
+    "commands": "./lib/commands",
+    "helpClass": "./lib/help.js",
+    "topicSeparator": " "
   },
   "repository": "natzcam/conf-cli",
   "scripts": {
-    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "posttest": "tslint -p test -t stylish",
-    "prepack": "oclif-dev manifest && rimraf lib && tsc -b",
+    "build": "rimraf lib && tsc",
+    "lint": "eslint .",
+    "test": "tsc -p test && c8 --include src mocha && eslint .",
+    "prepack": "npm run build && oclif manifest",
     "postpack": "rimraf oclif.manifest.json"
   }
 }

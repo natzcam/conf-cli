@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Conf",
-      "program": "${workspaceFolder}\\bin\\run",
+      "program": "${workspaceFolder}/bin/run.js",
       "console": "integratedTerminal"
     }
   ]
