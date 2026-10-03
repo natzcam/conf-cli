@@ -70,4 +70,9 @@ describe('conf-cli-basic', () => {
     const {error} = await run('scoped', 'yes', '--project', '@scope/app')
     expect(error).to.equal(undefined)
   })
+
+  it('prints the version', async () => {
+    const {stdout} = await run('--version')
+    expect(stdout).to.match(/^conf-cli\/\d+\.\d+\.\d+\n$/)
+  })
 })

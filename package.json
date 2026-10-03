@@ -1,7 +1,7 @@
 {
   "name": "conf-cli",
   "description": "simple cli for configuration and key/value's",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Nathaniel Camomot",
   "type": "module",
   "bin": {

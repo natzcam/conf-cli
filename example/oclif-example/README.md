@@ -38,7 +38,7 @@ manage configuration
 
 ```
 USAGE
-  $ oclif-example conf [KEY] [VALUE] [-h] [-k <value>] [-v <value>] [-d] [-p <value>] [-n <value>] [-c <value>]
+  $ oclif-example conf [KEY] [VALUE] [-h] [-k <value>] [-v <value>] [-d] [-p <value>] [-n <value>] [-c <value>] [--version]
 
 ARGUMENTS
   [KEY]    key of the config
@@ -52,6 +52,7 @@ FLAGS
   -n, --name=<value>     config file name
   -p, --project=<value>  project name
   -v, --value=<value>    value of the config
+      --version          show conf-cli version
 ```
 
 _See code: [conf-cli](https://github.com/natzcam/conf-cli/blob/master/src/commands/conf.ts)_

@@ -1,5 +1,8 @@
 import {Args, Command, Flags} from '@oclif/core'
 import Conf from 'conf'
+import {createRequire} from 'node:module'
+
+const pjson = createRequire(import.meta.url)('../../package.json') as {name: string; version: string}
 
 // conf (via dot-prop) silently drops keys that touch these segments to block
 // prototype pollution; reject them up front so the user knows nothing was stored.
@@ -22,6 +25,7 @@ export default class ConfCommand extends Command {
     project: Flags.string({char: 'p', description: 'project name'}),
     name: Flags.string({char: 'n', description: 'config file name'}),
     cwd: Flags.string({char: 'c', description: 'config file location'}),
+    version: Flags.boolean({description: 'show conf-cli version'}),
   }
 
   static args = {
@@ -31,6 +35,12 @@ export default class ConfCommand extends Command {
 
   async run() {
     const {args, flags} = await this.parse(ConfCommand)
+
+    // Report conf-cli's own version, also when loaded as a plugin into another CLI
+    if (flags.version) {
+      this.log(`${pjson.name}/${pjson.version}`)
+      return
+    }
 
     if (flags.project && !isPathSegment(flags.project) && !isScopedPackageName(flags.project)) {
       this.error(`invalid --project "${flags.project}": use a package name, or --cwd to choose the location`, {exit: 2})

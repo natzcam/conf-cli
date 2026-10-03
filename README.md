@@ -23,7 +23,7 @@ manage configuration
 
 ```
 USAGE
-  $ conf [KEY] [VALUE] [-h] [-k <value>] [-v <value>] [-d] [-p <value>] [-n <value>] [-c <value>]
+  $ conf [KEY] [VALUE] [-h] [-k <value>] [-v <value>] [-d] [-p <value>] [-n <value>] [-c <value>] [--version]
 
 ARGUMENTS
   [KEY]    key of the config
@@ -37,6 +37,7 @@ FLAGS
   -n, --name=<value>     config file name
   -p, --project=<value>  project name
   -v, --value=<value>    value of the config
+      --version          show conf-cli version
 ```
 
 > * if [VALUE] is not provided, value of the key is printed (exits with code 1 if the key is not set)
